@@ -1,0 +1,22 @@
+﻿@model BlogEngine.Domain.Models.BlogEntrySummaryModel[]
+    @{
+        ViewBag.Title = "View blogs";
+    }
+
+    <h2>@ViewBag.Title</h2>
+
+    <article>
+
+        <ul class="entry-list text-links">
+            @foreach (var entry in Model)
+            {
+                <li>
+                    @Html.ActionLink(entry.Title, "Show", "Blog", new { id = entry.Key }, null)
+                    <div class="date">@entry.Date</div>
+                    @if (!entry.IsPublished)
+                    { <div class="publication-status">(Unpublished)</div> }
+                </li>
+            }
+        </ul>
+
+    </article>

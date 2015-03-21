@@ -1,0 +1,18 @@
+
+Publish 
+Hoh 
+
+
+add js prettify
+Normal user Registration
+user settings service to pull from config file.. ensure it gets all values on ctor and caches them.
+If I can get the generic repository to deal with includes correctly then can make the save not have to check its type
+Get the services to ask the repository for NON entity types.  So that auto mapper is used and will always get the correct data out, means it can be generic gets.
+
+auto mapper and project to in the repository to remove any hard coding of includes.
+
+Google logon
+Facebook logon
+Add a published date field
+
+add claims

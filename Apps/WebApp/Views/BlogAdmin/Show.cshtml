@@ -1,0 +1,18 @@
+﻿@using WebApp.Models
+@model BlogEngine.Domain.Models.BlogEntryModel
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>@Model.Title</h2>
+
+@Html.Safe(@Model.Html)
+
+
+<ul>
+    @foreach (var tag in Model.Tags)
+    {
+        <li>@tag</li>
+    }
+</ul>

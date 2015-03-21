@@ -1,0 +1,13 @@
+﻿@model BlogEngine.Domain.Models.TagCount[]
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>this is a test count page</h2>
+
+<ul class="list-group">
+    @foreach (var count in Model)
+    {
+        <li class="list-group-item">@Html.ActionLink(@count.Tag.Name + " - " + @count.Count, "Index", "Tags", new { tag = @count.Tag.Name }, null)</li>
+    }
+</ul>

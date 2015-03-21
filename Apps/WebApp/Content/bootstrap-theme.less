@@ -1,0 +1,117 @@
+﻿@import 'variables.less';
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/fonts/glyphicons-halflings-regular.eot');
+  src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .panel-heading {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 200;
+    line-height: 1.1;
+    color: inherit;
+}
+
+
+h1, .h1 {
+    font-size: @font-size-h1;
+}
+
+h2, .h2 {
+    font-size: @font-size-h2;
+}
+
+h3, .h3 {
+    font-size: @font-size-h3;
+}
+
+h4, .h4 {
+    font-size: @font-size-h4;
+}
+
+h5, .h5 {
+    font-size: @font-size-h5;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+.panel {
+    border-radius: 0;
+    overflow: hidden;
+    border: none;
+    /*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+}
+
+.panel-heading {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.panel-default > .panel-heading {
+    background-color: #fcfcfc;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.panel-footer {
+    background-color: transparent;
+    border-top: none;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.panel-body > p:last-child,
+.panel-body > .list-group {
+    margin-bottom: 0;
+}
+
+.text-warning {
+    color: @warning-color;
+}
+
+
+
+.btn {
+    border-radius: 0;
+}
+
+.modal-content {
+    border-radius: 0;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        border-radius: 0;
+    }
+}
+
+.navbar-default {
+    border-radius: 0;
+}
+
+.list-group {
+    border-radius: 0;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
+}
+
+.input-lg, .form-group-lg .form-control {
+    border-radius: 0;
+}
+
+p.input-group {
+    margin: 0;
+}
+
+.block {
+    position: relative;
+}

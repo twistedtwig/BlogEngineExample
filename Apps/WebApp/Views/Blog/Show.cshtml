@@ -1,0 +1,13 @@
+﻿@model BlogEngine.Domain.Models.BlogEntryModel
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>@Model.Title</h2>
+
+@Html.Raw(Model.Html)
+
+
+
+

@@ -1,0 +1,14 @@
+﻿@model BlogEngine.Domain.Models.BlogEntrySummaryModel[]
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Tagged View: @ViewBag.Tag</h2>
+
+<ul class="list-group">
+    @foreach (var entry in Model)
+    {
+        <li class="list-group-item">@entry.Title</li>
+    }
+</ul>
