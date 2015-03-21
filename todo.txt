@@ -1,7 +1,4 @@
 
-Publish 
-Hoh 
-
 
 add js prettify
 Normal user Registration
