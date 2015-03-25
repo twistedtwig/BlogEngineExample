@@ -10,6 +10,7 @@ using BlogEngine.Repository.Models;
 using Moq;
 using NUnit.Framework;
 using Testing;
+using UserManagementService.Interfaces;
 
 namespace BlogEngine.Domain.LogicTests
 {
@@ -23,7 +24,8 @@ namespace BlogEngine.Domain.LogicTests
 
             var mocker = new AutoMock<BlogEntryService>();
 
-//            mocker.GetMock<IBlogUserService>().Setup(x => x.Current).Returns(new BlogUser { FriendlyName = "Jon Hawkins" });
+            mocker.GetMock<IGetCurrentUserName>().Setup(x => x.GetUserName()).Returns("Jon");
+            mocker.GetMock<IUserService<BlogUser, BlogUserEntity, int>>().Setup(x => x.FindByName("Jon")).Returns(new BlogUser { DisplayName = "Jon Hawkins"});
 
             mocker.GetMock<IBlogRepository>().Setup(x => x.All<TagEntity>()).Returns(new List<TagEntity> { new TagEntity { Id = 1, Name = "c#" }, new TagEntity { Id = 3, Name = "php" }, new TagEntity { Id = 5, Name = "javascript" } });
             mocker.GetMock<IBlogRepository>().Setup(x => x.Exists(It.IsAny<Expression<Func<BlogEntryEntity, bool>>>())).Returns(true);
@@ -49,7 +51,8 @@ namespace BlogEngine.Domain.LogicTests
 
             var mocker = new AutoMock<BlogEntryService>();
 
-//            mocker.GetMock<IBlogUserService>().Setup(x => x.Current).Returns(new BlogUser { FriendlyName = "Jon Hawkins" });
+            mocker.GetMock<IGetCurrentUserName>().Setup(x => x.GetUserName()).Returns("Jon");
+            mocker.GetMock<IUserService<BlogUser, BlogUserEntity, int>>().Setup(x => x.FindByName("Jon")).Returns(new BlogUser { DisplayName = "Jon Hawkins" });
 
             mocker.GetMock<IBlogRepository>().Setup(x => x.All<TagEntity>()).Returns(new List<TagEntity> { new TagEntity { Id = 1, Name = "c#" }, new TagEntity { Id = 3, Name = "php" }, new TagEntity { Id = 5, Name = "javascript" } });
             mocker.GetMock<IBlogRepository>().Setup(x => x.Exists(It.IsAny<Expression<Func<BlogEntryEntity, bool>>>())).Returns(true);
@@ -79,7 +82,8 @@ namespace BlogEngine.Domain.LogicTests
 
             var mocker = new AutoMock<BlogEntryService>();
 
-//            mocker.GetMock<IBlogUserService>().Setup(x => x.Current).Returns(new BlogUser { FriendlyName = "Jon Hawkins" });
+            mocker.GetMock<IGetCurrentUserName>().Setup(x => x.GetUserName()).Returns("Jon");
+            mocker.GetMock<IUserService<BlogUser, BlogUserEntity, int>>().Setup(x => x.FindByName("Jon")).Returns(new BlogUser { DisplayName = "Jon Hawkins" });
             
             mocker.GetMock<IBlogRepository>().Setup(x => x.All<TagEntity>()).Returns(new List<TagEntity> { new TagEntity { Id = 1, Name = "c#" }, new TagEntity { Id = 3, Name = "php" }, new TagEntity { Id = 5, Name = "javascript" } });
             mocker.GetMock<IBlogRepository>().Setup(x => x.Exists(It.IsAny<Expression<Func<BlogEntryEntity, bool>>>())).Returns(true);
@@ -98,6 +102,39 @@ namespace BlogEngine.Domain.LogicTests
 
             mocker.GetMock<IBlogRepository>().Verify(x => x.Save(It.Is<BlogEntryEntity>(b => 
                 b.Slug == blogEntryModel.Slug
+                && b.Tags.Count == 2
+                && b.Tags.Any(t => t.Name == "c#" && t.Id == 1)
+                && b.Tags.Any(t => t.Name == "happy" && t.Id == 0)
+            ), It.IsAny<Expression<Func<BlogEntryEntity, bool>>>()));
+        }
+
+        [Test]
+        public void SavingNewEntryWillCreateNewRepoEntity()
+        {
+            const string slug = "this-is-a-new-slug";
+
+            var mocker = new AutoMock<BlogEntryService>();
+
+            mocker.GetMock<IGetCurrentUserName>().Setup(x => x.GetUserName()).Returns("Jon");
+            mocker.GetMock<IUserService<BlogUser, BlogUserEntity, int>>().Setup(x => x.FindByName("Jon")).Returns(new BlogUser { DisplayName = "Jon Hawkins" });
+
+            mocker.GetMock<IBlogRepository>().Setup(x => x.All<TagEntity>()).Returns(new List<TagEntity> { new TagEntity { Id = 1, Name = "c#" }, new TagEntity { Id = 3, Name = "php" }, new TagEntity { Id = 5, Name = "javascript" } });
+            mocker.GetMock<IBlogRepository>().Setup(x => x.Exists(It.IsAny<Expression<Func<BlogEntryEntity, bool>>>())).Returns(false);
+
+            var blogEntryModel = new BlogEntryModel();
+
+            blogEntryModel.Slug = slug;
+            blogEntryModel.Title = "this is a new slug";
+            blogEntryModel.Html = "some html";
+            blogEntryModel.Date = DateTime.Now.ToString("dd/MM/yyyy");
+            blogEntryModel.TagsString = "c# happy";
+
+            var serviceResult = mocker.Object.Save(blogEntryModel);
+            Assert.IsNotNull(serviceResult);
+
+            mocker.GetMock<IBlogRepository>().Verify(x => x.Save(It.Is<BlogEntryEntity>(b =>
+                b.Slug == blogEntryModel.Slug
+                && b.Title == blogEntryModel.Title
                 && b.Tags.Count == 2
                 && b.Tags.Any(t => t.Name == "c#" && t.Id == 1)
                 && b.Tags.Any(t => t.Name == "happy" && t.Id == 0)

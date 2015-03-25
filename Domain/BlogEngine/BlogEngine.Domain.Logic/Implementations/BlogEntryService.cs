@@ -18,16 +18,14 @@ namespace BlogEngine.Domain.Implementations
         private readonly IBlogRepository _blogRepository;
         private readonly IUserService<BlogUser, BlogUserEntity, int> _blogUserService;
         private readonly IBlogTagService _blogTagService;
-
-        private readonly string _username;
-
+        private readonly IGetCurrentUserName _currentUserService;
+        
         public BlogEntryService(IBlogRepository blogRepository, IBlogTagService blogTagService, IGetCurrentUserName currentUserService, IUserService<BlogUser, BlogUserEntity, int> blogUserService)
         {
             _blogRepository = blogRepository;
             _blogUserService = blogUserService;
             _blogTagService = blogTagService;
-
-            _username = currentUserService.GetUserName();
+            _currentUserService = currentUserService;
         }
 
         public ServiceResult<string> Save(BlogEntryModel entryModel)
@@ -80,7 +78,8 @@ namespace BlogEngine.Domain.Implementations
             entry.Markdown = entryModel.Markdown;
             entry.IsPublished = entryModel.IsPublished;
             entry.IsCodePrettified = entryModel.IsCodePrettified;
-            entry.Author = _blogUserService.FindByName(_username).DisplayName;
+
+            entry.Author = _blogUserService.FindByName(_currentUserService.GetUserName()).DisplayName;
 
             //update all the tags.
             var tags = _blogRepository.All<TagEntity>().ToArray();

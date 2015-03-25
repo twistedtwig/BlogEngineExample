@@ -67,6 +67,14 @@
       <Project>{68348C1E-9207-44FA-8805-6337AC93B8A0}</Project>
       <Name>General</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\UserManagement.Shared\UserManagement.Shared.csproj">
+      <Project>{2DF97288-BEE5-45EC-AF93-86397133743B}</Project>
+      <Name>UserManagement.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UserManagement\UserManagementService\UserManagementService.csproj">
+      <Project>{84A2E4F7-53C1-4EAE-A624-0C620C8305D7}</Project>
+      <Name>UserManagementService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BlogEngine.Domain.Logic\BlogEngine.Domain.csproj">
       <Project>{6508BD43-16D7-4061-8DB4-30BA84CCF90F}</Project>
       <Name>BlogEngine.Domain</Name>
