@@ -58,7 +58,7 @@ namespace WebApp.Controllers
         public ActionResult Add(BlogEntryModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return View("Edit", model);
 
             var serviceResult = _blogService.Save(model);
             if (serviceResult.Succeeded)
@@ -67,7 +67,7 @@ namespace WebApp.Controllers
             }
 
             ModelState.AddModelError("Title", serviceResult.Errors.Any() ? serviceResult.Errors[0] : "There was an error");
-            return View(model);
+            return View("Edit", model);
         }
 
         [HttpGet]
