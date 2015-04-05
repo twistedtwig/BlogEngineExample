@@ -17,6 +17,7 @@
         {
             <li>
                 @entry.Title
+                <div class="summary">@Html.Raw(@entry.Summary)</div>
                 @Html.ActionLink("View", "Show", "BlogAdmin", new { id = entry.Key }, null)
                 @Html.ActionLink("Edit", "Edit", "BlogAdmin", new { id = entry.Key }, null)
                 <div class="date">@entry.Date</div>

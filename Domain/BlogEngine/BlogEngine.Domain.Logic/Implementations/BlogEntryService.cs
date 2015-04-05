@@ -76,11 +76,12 @@ namespace BlogEngine.Domain.Implementations
             
             entry.Title = entryModel.Title;            
             entry.Markdown = entryModel.Markdown;
+            entry.Summary = CreateSummary(entryModel.Markdown);
             entry.IsPublished = entryModel.IsPublished;
             entry.IsCodePrettified = entryModel.IsCodePrettified;
 
             entry.Author = _blogUserService.FindByName(_currentUserService.GetUserName()).DisplayName;
-
+            
             //update all the tags.
             var tags = _blogRepository.All<TagEntity>().ToArray();
 
@@ -99,7 +100,6 @@ namespace BlogEngine.Domain.Implementations
              
             var actualTags = newTags.Union(matchedTags);
 
-            
             var entryEntity = GenericMapper<BlogEntryEntity, BlogEntry>.ToEntity(entry);
             entryEntity.Tags.Clear();
             entryEntity.Tags.AddRange(actualTags);
@@ -154,9 +154,9 @@ namespace BlogEngine.Domain.Implementations
 
         private BlogEntryModel MapToModel(BlogEntry entry)
         {
-            var markdown = new MarkdownSharp.Markdown();
-            var html = markdown.Transform(entry.Markdown);
-
+            var html = ConvertToMarkDown(entry.Markdown);
+            var summary = ConvertToMarkDown(entry.Summary);
+            
             var model = new BlogEntryModel
             {
                 Date = entry.DateCreated.ToString(DateSettings.DateStringFormat()),
@@ -164,6 +164,7 @@ namespace BlogEngine.Domain.Implementations
                 NewSlug = entry.Slug,
                 Title = entry.Title,
                 Html = html,
+                Summary = summary,
                 Markdown = entry.Markdown,
                 Tags = entry.Tags.Select(t => t.Name).ToList(),
                 IsCodePrettified = entry.IsCodePrettified ?? true,
@@ -174,12 +175,32 @@ namespace BlogEngine.Domain.Implementations
             return model;
         }
 
+        private string CreateSummary(string text)
+        {
+            const int summaryLength = 300;
+
+            var summary = string.Empty;
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                summary = text.Trim().Length <= summaryLength ? text : text.Substring(0, summaryLength) + "...";
+            }
+
+            return summary;
+        }
+
+        private string ConvertToMarkDown(string text)
+        {
+            var markdown = new MarkdownSharp.Markdown();
+            return markdown.Transform(text);
+        }
+
         private BlogEntrySummaryModel MapToSummary(BlogEntry entry)
         {
             return new BlogEntrySummaryModel
             {
                 Key = entry.Slug,
                 Title = entry.Title,
+                Summary = ConvertToMarkDown(entry.Summary),
                 Date = entry.DateCreated.ToDateString(),
                 PrettyDate = entry.DateCreated.ToPrettyDate(),
                 IsPublished = entry.IsPublished ?? true

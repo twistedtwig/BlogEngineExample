@@ -16,6 +16,7 @@ namespace BlogEngine.Repository.Models
         public string Author { get; set; }
         public DateTime DateCreated { get; set; }
         public string Markdown { get; set; }
+        public string Summary { get; set; }
         public bool? IsPublished { get; set; }
         public bool? IsCodePrettified { get; set; }
 

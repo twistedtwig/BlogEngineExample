@@ -17,6 +17,7 @@ namespace BlogEngine.Domain.Models
         public string Author { get; set; }
         public DateTime DateCreated { get; set; }
         public string Markdown { get; set; }
+        public string Summary { get; set; }
         public bool? IsPublished { get; set; }
         public bool? IsCodePrettified { get; set; }
 
@@ -35,6 +36,7 @@ namespace BlogEngine.Domain.Models
         public string Date { get; set; }
         public string Title { get; set; }
         public string Html { get; set; }
+        public string Summary { get; set; }
         public bool IsCodePrettified { get; set; }
         public List<string> Tags { get; set; }
         public string Markdown { get; set; }
@@ -65,6 +67,7 @@ namespace BlogEngine.Domain.Models
 
         public string Key { get; set; }
         public string Title { get; set; }
+        public string Summary { get; set; }
         public string Date { get; set; }
         public string PrettyDate { get; set; }
         public bool IsPublished { get; set; }

@@ -21,7 +21,8 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            return View(_blogService.GetList(false));
+            BlogEntrySummaryModel[] blogEntrySummaryModels = _blogService.GetList(false);
+            return View(blogEntrySummaryModels);
         }
 
         [HttpGet]
