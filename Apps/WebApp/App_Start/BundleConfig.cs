@@ -23,7 +23,8 @@ namespace WebApp
             {
                 return new ScriptBundle("~/bundles/vendor").Include(
                     "~/Scripts/jquery-{version}.js",    // DOM Manipulation (required by bootstrap)
-                    "~/Scripts/bootstrap.js",           // Standard CSS Template                    
+                    "~/Scripts/bootstrap.js",           // Standard CSS Template                
+                    "~/Scripts/prettify/run_prettify.js",
                     "~/Scripts/moment.js",              // Date/time display and manipulation                    
                     "~/Scripts/underscore.js"          // JavaScript helper library
                 );
@@ -37,6 +38,8 @@ namespace WebApp
                 return new StyleBundle("~/Content/css")
                     .Include(
                         "~/Content/bootstrap.css",
+                        "~/Content/font-awesome.css",
+                        "~/Content/prettify.css",
                         "~/Content/site.css",
                         "~/Content/Blog.css")
                     .IncludeDirectory("~/Content", "*.css", false);

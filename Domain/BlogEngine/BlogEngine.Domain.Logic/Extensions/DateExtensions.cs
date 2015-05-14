@@ -9,6 +9,10 @@ namespace BlogEngine.Domain.Extensions
             return date.ToString("dddd, dd MMMM yyyy");
         }
 
+        public static string ToShortenedDateString(this DateTime date)
+        {
+            return date.ToString("dd/MM/yyyy");
+        }
 
         public static string ToPrettyDate(this DateTime date)
         {

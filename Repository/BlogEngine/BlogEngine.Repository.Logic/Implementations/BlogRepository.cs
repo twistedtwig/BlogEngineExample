@@ -170,15 +170,9 @@ namespace BlogEngine.Repository.Implementations
         /// <summary>
         /// Searches for any tags that are not being used by any  blog entry and deletes them.
         /// </summary>
-        public void RemoveUnusedTags()
+        public void RemoveUnusedTags(params TagEntity[] tags)
         {
-            var usedTagNames = Setup<BlogEntryEntity>().SelectMany(e => e.Tags).Select(t => t.Name).Distinct().ToArray();
-
-            var allTags = Setup<TagEntity>().ToArray();
-
-            var unused = allTags.Where(tag => usedTagNames.All(t => t != tag.Name)).ToList();
-
-            foreach (var tag in unused)
+            foreach (var tag in tags)
             {
                 _context.Set<TagEntity>().Remove(tag);
             }
@@ -192,6 +186,29 @@ namespace BlogEngine.Repository.Implementations
             return Setup<BlogEntryEntity>()
                 .Where(b => tags.All(t => b.Tags.Select(bt => bt.Name).Contains(t)))
                 .ToArray();
+        }
+
+        public TagEntity[] GetUnusedTags()
+        {
+            var usedTagNames = Setup<BlogEntryEntity>().SelectMany(e => e.Tags).Select(t => t.Name).Distinct().ToArray();
+
+            var allTags = Setup<TagEntity>().ToArray();
+
+            return allTags.Where(tag => usedTagNames.All(t => t != tag.Name)).ToArray();
+        }
+
+        public void RemoveTagsFromCount(params TagEntity[] tags)
+        {
+            foreach (var tag in tags)
+            {
+                var countEntities = Setup<TagCountEntity>().Where(tc => tc.Tag.Id == tag.Id).ToList();
+                foreach (var countEntity in countEntities)
+                {
+                    _context.Set<TagCountEntity>().Remove(countEntity);
+                }
+            }
+
+            _context.SaveChanges();
         }
     }
 }

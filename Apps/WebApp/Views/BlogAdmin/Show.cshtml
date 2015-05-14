@@ -5,14 +5,37 @@
     ViewBag.Title = "Show";
 }
 
-<h2>@Model.Title</h2>
-
-@Html.Safe(@Model.Html)
-
-
-<ul>
-    @foreach (var tag in Model.Tags)
-    {
-        <li>@tag</li>
+@if (Model.IsCodePrettified)
+{
+    @section scripts{
+        <script>
+            $(function () {
+                $("pre").addClass("prettyprint");
+            });
+        </script>
     }
-</ul>
+}
+
+<section class="blog">
+    <div class="container">
+
+        <div class="pull-right">
+            @Html.ActionLink("Back", "Index", "BlogAdmin")
+        </div>
+
+        <h2>@Model.Title</h2>
+
+        @Html.Raw(@Model.Html)
+
+
+        <ul>
+            @foreach (var tag in Model.Tags)
+            {
+                <li>@tag</li>
+            }
+        </ul>
+
+    </div>
+</section>
+
+

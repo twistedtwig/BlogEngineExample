@@ -2,7 +2,7 @@ update tests to cover the ranging gaps that exist in save.
 
 add search
 
-add js prettify
+
 Normal user Registration
 user settings service to pull from config file.. ensure it gets all values on ctor and caches them.
 If I can get the generic repository to deal with includes correctly then can make the save not have to check its type

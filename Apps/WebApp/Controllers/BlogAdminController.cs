@@ -21,8 +21,7 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            BlogEntrySummaryModel[] blogEntrySummaryModels = _blogService.GetList(false);
-            return View(blogEntrySummaryModels);
+            return View(_blogService.GetList(false));
         }
 
         [HttpGet]
@@ -53,7 +52,7 @@ namespace WebApp.Controllers
             return View("Edit", new BlogEntryModel());
         }
 
-
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Add(BlogEntryModel model)
@@ -77,7 +76,7 @@ namespace WebApp.Controllers
             return View(_blogService.GetBySlug(slug));
         }
 
-
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Edit(BlogEntryModel model)
@@ -90,7 +89,7 @@ namespace WebApp.Controllers
             var serviceResult = _blogService.Save(model);
             if (serviceResult.Succeeded)
             {
-                return RedirectToAction("Index", "BlogAdmin", new { id = model.Slug });                
+                return RedirectToAction("Index", "BlogAdmin");
             }
 
             ModelState.AddModelError("Title", serviceResult.Errors.Any() ? serviceResult.Errors[0] : "There was an error");
@@ -98,7 +97,7 @@ namespace WebApp.Controllers
         }
 
 
-       
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Delete(DeleteModel model)

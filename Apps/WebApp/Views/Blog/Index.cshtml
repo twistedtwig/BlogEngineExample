@@ -1,22 +1,20 @@
 ﻿@model BlogEngine.Domain.Models.BlogEntrySummaryModel[]
-    @{
-        ViewBag.Title = "View blogs";
-    }
 
-    <h2>@ViewBag.Title</h2>
+<section class="blog-summary">
+    <div class="container">
+        <h3 class="ribbon blog-ribbon">Blog<span></span></h3>
 
-    <article>
 
-        <ul class="entry-list text-links">
+        <ul class="entry-list list-group">
             @foreach (var entry in Model)
             {
-                <li>
-                    @Html.ActionLink(entry.Title, "Show", "Blog", new { id = entry.Key }, null)
-                    <div class="date">@entry.Date</div>
-                    @if (!entry.IsPublished)
-                    { <div class="publication-status">(Unpublished)</div> }
+                <li class="list-group-item">
+                    <div class="date pull-right">@entry.Date</div>
+                    <strong>@Html.ActionLink(entry.Title, "Show", "Blog", new { id = entry.Key }, null)</strong>
+                    @Html.Raw(entry.Summary)
                 </li>
             }
         </ul>
 
-    </article>
+    </div>
+</section>

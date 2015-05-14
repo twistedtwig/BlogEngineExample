@@ -3,30 +3,32 @@
     ViewBag.Title = "Blog admin";
 }
 
-<h2>@ViewBag.Title</h2>
+<section class="blog-form">
+    <div class="container">
 
-<article>
+        <div class="pull-right">@Html.ActionLink("Log Off", "LogOffLink", "Account")</div>
 
-    <div class="admin-box text-links">
-        Admin:
-        @Html.ActionLink("New Post", "Add", "BlogAdmin")
+        <div class="admin-box text-links">
+            Admin:
+            @Html.ActionLink("New Post", "Add", "BlogAdmin")
+        </div>
+
+        <ul class="entry-list text-links list-group">
+            @foreach (var entry in Model)
+            {
+                <li class="list-group-item">
+                    <h2>@entry.Title</h2>
+                    <div class="summary">@Html.Raw(entry.Summary)</div>
+                    @Html.ActionLink("View", "Show", "BlogAdmin", new { id = entry.Key }, null)
+                    @Html.ActionLink("Edit", "Edit", "BlogAdmin", new { id = entry.Key }, null)
+                    <div class="date">@entry.Date</div>
+                    @if (!entry.IsPublished)
+                    { <div class="publication-status">(Unpublished)</div> }
+
+                    @Html.ActionLink("Delete", "Delete", "BlogAdmin", new { id = entry.Key }, null)
+                </li>
+            }
+        </ul>
+
     </div>
-
-    <ul class="entry-list text-links">
-        @foreach (var entry in Model)
-        {
-            <li>
-                @entry.Title
-                <div class="summary">@Html.Raw(@entry.Summary)</div>
-                @Html.ActionLink("View", "Show", "BlogAdmin", new { id = entry.Key }, null)
-                @Html.ActionLink("Edit", "Edit", "BlogAdmin", new { id = entry.Key }, null)
-                <div class="date">@entry.Date</div>
-                @if (!entry.IsPublished)
-                { <div class="publication-status">(Unpublished)</div> }
-                                                                      
-                @Html.ActionLink("Delete", "Delete", "BlogAdmin", new { id = entry.Key }, null)
-            </li>
-        }
-    </ul>
-
-</article>
+</section>

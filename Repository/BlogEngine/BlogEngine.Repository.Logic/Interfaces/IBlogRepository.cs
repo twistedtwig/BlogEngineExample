@@ -19,7 +19,9 @@ namespace BlogEngine.Repository.Interfaces
         void Delete<TEntity>(Expression<Func<TEntity, bool>> exp) where TEntity : class, new();
 
         void UpdateTagCount();
-        void RemoveUnusedTags();
+        void RemoveUnusedTags(params TagEntity[] tags);
         IEnumerable<BlogEntryEntity> ListByTags(params string[] tags);
+        TagEntity[] GetUnusedTags();
+        void RemoveTagsFromCount(params TagEntity[] tags);
     }
 }

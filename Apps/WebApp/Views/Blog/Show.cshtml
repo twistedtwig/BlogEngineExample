@@ -1,13 +1,35 @@
-﻿@model BlogEngine.Domain.Models.BlogEntryModel
+﻿@using BlogEngine.Domain.Extensions
+@model BlogEngine.Domain.Models.BlogEntryModel
 
 @{
     ViewBag.Title = "Show";
 }
 
-<h2>@Model.Title</h2>
+@if (Model.IsCodePrettified)
+{
+    @section scripts{
+        <script>
+            $(function () {
+                $("pre").addClass("prettyprint");
+            });
+        </script>
+    }
+}
 
-@Html.Raw(Model.Html)
 
+<section class="blog">
+    <div class="container">
+        <h3 class="ribbon skills-ribbon">
+            @Model.Title<span></span>
+        </h3>
+
+        <article>
+            @Html.Raw(Model.Html)
+        </article>
+
+        <div class="date pull-right">Published: @DateTime.Parse(Model.Date).ToDateString()</div>
+    </div>
+</section>
 
 
 

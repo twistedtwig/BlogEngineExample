@@ -159,7 +159,7 @@ namespace BlogEngine.Domain.Implementations
             
             var model = new BlogEntryModel
             {
-                Date = entry.DateCreated.ToString(DateSettings.DateStringFormat()),
+                Date = entry.DateCreated.ToShortenedDateString(),
                 Slug = entry.Slug,
                 NewSlug = entry.Slug,
                 Title = entry.Title,
