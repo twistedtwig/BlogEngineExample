@@ -3,7 +3,6 @@ using BlogEngine.Domain.Interfaces;
 using BlogEngine.Domain.Models;
 using BlogEngine.Repository.Interfaces;
 using BlogEngine.Repository.Models;
-using General;
 
 namespace BlogEngine.Domain.Implementations
 {
@@ -18,12 +17,12 @@ namespace BlogEngine.Domain.Implementations
 
         public TagCount[] GetCount()
         {
-            return _blogRepository.All<TagCountEntity>().Select(GenericMapper<TagCountEntity, TagCount>.ToModelWithSubTypes).ToArray();
+            return _blogRepository.All<TagCountEntity>().Select(AutoMapper.Mapper.Map<TagCountEntity, TagCount>).ToArray();
         }
 
         public Tag[] GetPossibles(string text)
         {
-            return _blogRepository.List<TagEntity>(t => t.Name.Contains(text)).Select(GenericMapper<TagEntity, Tag>.ToModel).ToArray();
+            return _blogRepository.List<TagEntity>(t => t.Name.Contains(text)).Select(AutoMapper.Mapper.Map<TagEntity, Tag>).ToArray();
         }
 
         public void UpdateTagCount()

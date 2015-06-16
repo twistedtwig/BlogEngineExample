@@ -50,7 +50,7 @@ namespace BlogEngine.Domain.Implementations
             }
             else
             {
-                entry = GenericMapper<BlogEntryEntity, BlogEntry>.ToModelWithSubTypes(_blogRepository.Single<BlogEntryEntity>(b => b.Slug == entryModel.Slug));
+                entry = AutoMapper.Mapper.Map<BlogEntryEntity, BlogEntry>(_blogRepository.Single<BlogEntryEntity>(b => b.Slug == entryModel.Slug));                
                 entry.DateCreated = DateTime.ParseExact(entryModel.Date, DateSettings.DateStringFormat(), Thread.CurrentThread.CurrentCulture);
 
                 var slugChanged =
@@ -100,7 +100,7 @@ namespace BlogEngine.Domain.Implementations
              
             var actualTags = newTags.Union(matchedTags);
 
-            var entryEntity = GenericMapper<BlogEntryEntity, BlogEntry>.ToEntity(entry);
+            var entryEntity = AutoMapper.Mapper.Map<BlogEntry, BlogEntryEntity>(entry);
             entryEntity.Tags.Clear();
             entryEntity.Tags.AddRange(actualTags);
 
@@ -119,16 +119,16 @@ namespace BlogEngine.Domain.Implementations
 
         public BlogEntryModel GetBySlug(string slug)
         {
-            return MapToModel(GenericMapper<BlogEntryEntity, BlogEntry>.ToModelWithSubTypes(_blogRepository.Single<BlogEntryEntity>(b => b.Slug == slug)));
+            return MapToModel(AutoMapper.Mapper.Map<BlogEntryEntity, BlogEntry>(_blogRepository.Single<BlogEntryEntity>(b => b.Slug == slug)));
         }
 
         public BlogEntrySummaryModel[] GetList(bool onlyPublished = true)
         {
            var list = onlyPublished
                 ? _blogRepository.List<BlogEntryEntity>(b => b.IsPublished.HasValue && b.IsPublished.Value && b.DateCreated <= DateTime.Now)
-                    .Select(GenericMapper<BlogEntryEntity, BlogEntry>.ToModelWithSubTypes)
-                    .ToList() 
-                : _blogRepository.All<BlogEntryEntity>().Select(GenericMapper<BlogEntryEntity, BlogEntry>.ToModelWithSubTypes).ToList();
+                    .Select(AutoMapper.Mapper.Map<BlogEntryEntity, BlogEntry>)
+                    .ToList()
+                : _blogRepository.All<BlogEntryEntity>().Select(AutoMapper.Mapper.Map<BlogEntryEntity, BlogEntry>).ToList();
 
            return list.OrderByDescending(e => e.DateCreated).Select(MapToSummary).ToArray();
         }
@@ -136,7 +136,7 @@ namespace BlogEngine.Domain.Implementations
         public BlogEntrySummaryModel[] GetList(params string[] tags)
         {
             return _blogRepository.ListByTags(tags)
-                .Select(GenericMapper<BlogEntryEntity, BlogEntry>.ToModelWithSubTypes)
+                .Select(AutoMapper.Mapper.Map<BlogEntryEntity, BlogEntry>)
                 .OrderByDescending(e => e.DateCreated)
                 .Select(MapToSummary)
                 .ToArray();

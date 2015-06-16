@@ -21,7 +21,7 @@ namespace WebApp.Controllers
 
             //TODO remove this after first run
             //this is here just to show how to boost strap your first user when the project is first setup.
-            //_userService.Create(new BlogUser {Email = "MYEMAILHERE", DisplayName = "MY DISPLAY NAME HERE", UserName = "MYUSERNAMEHERE"}, "MYPASSWORDHERE");
+           // _userService.Create(new BlogUser {Email = "jon@houseofhawkins.com", DisplayName = "Jon Hawkins", UserName = "Jon"}, "abc123def!");
         }
 
         

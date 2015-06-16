@@ -44,7 +44,7 @@ namespace UserManagementService.Implementations
             ThrowIfDisposed();
 
             var repoUser = _userRepository.SingleOrDefault(x => x.Id.Equals(key));
-            return GenericMapper<TRepositoryUser, TServiceUser>.ToModelWithSubTypes(repoUser);
+            return AutoMapper.Mapper.Map<TRepositoryUser, TServiceUser>(repoUser);
         }
 
         public TServiceUser Find(string userName, string password)
@@ -53,7 +53,7 @@ namespace UserManagementService.Implementations
             var repoUser = _userRepository.SingleOrDefault(x => x.UserName == userName);
             if (repoUser == null) return null;
 
-            return VerifyPassword(repoUser, password) ? GenericMapper<TRepositoryUser, TServiceUser>.ToModelWithSubTypes(repoUser) : null;
+            return VerifyPassword(repoUser, password) ? AutoMapper.Mapper.Map<TRepositoryUser, TServiceUser>(repoUser) : null;
         }
 
         public TServiceUser FindByName(string userName)
@@ -61,7 +61,7 @@ namespace UserManagementService.Implementations
             if (string.IsNullOrWhiteSpace(userName)) throw new ArgumentNullException("userName");
             ThrowIfDisposed();
 
-            return GenericMapper<TRepositoryUser, TServiceUser>.ToModelWithSubTypes(_userRepository.SingleOrDefault(x => x.UserName == userName));
+            return AutoMapper.Mapper.Map<TRepositoryUser, TServiceUser>(_userRepository.SingleOrDefault(x => x.UserName == userName));
         }
 
         public ServiceResult<bool> ChangePassword(TKey userId, string currentPassword, string newPassword)
@@ -133,7 +133,7 @@ namespace UserManagementService.Implementations
                 return ServiceResult<bool>.Error(errors.ToArray());
             }
 
-            var repoUser = GenericMapper<TRepositoryUser, TServiceUser>.ToEntityWithSubTypes(user);
+            var repoUser = AutoMapper.Mapper.Map<TServiceUser, TRepositoryUser>(user);
             TKey id = _userRepository.Create(repoUser);
             repoUser.Id = id;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using BlogEngine.Repository.Interfaces;
@@ -37,18 +38,18 @@ namespace BlogEngine.Repository.Implementations
 
         public TEntity Single<TEntity>(Expression<Func<TEntity, bool>> exp) where TEntity : class, new()
         {
-            return Setup<TEntity>().Single(exp);
+            return Setup<TEntity>().AsNoTracking().Single(exp);
         }
 
         public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
-            return Setup<TEntity>().ToList();
+            return Setup<TEntity>().AsNoTracking().ToList();
         }
 
         public IEnumerable<TEntity> List<TEntity>(Expression<Func<TEntity, bool>> exp) where TEntity : class, new()
         {
             if (exp == null) throw new ArgumentNullException("exp");
-            return Setup<TEntity>().Where(exp).ToList();
+            return Setup<TEntity>().Where(exp).AsNoTracking().ToList();
         }
 
         public bool Exists<TEntity>(Expression<Func<TEntity, bool>> exp) where TEntity : class, new()
@@ -185,12 +186,13 @@ namespace BlogEngine.Repository.Implementations
         {
             return Setup<BlogEntryEntity>()
                 .Where(b => tags.All(t => b.Tags.Select(bt => bt.Name).Contains(t)))
+                .AsNoTracking()
                 .ToArray();
         }
 
         public TagEntity[] GetUnusedTags()
         {
-            var usedTagNames = Setup<BlogEntryEntity>().SelectMany(e => e.Tags).Select(t => t.Name).Distinct().ToArray();
+            var usedTagNames = Setup<BlogEntryEntity>().SelectMany(e => e.Tags).Select(t => t.Name).AsNoTracking().Distinct().ToArray();
 
             var allTags = Setup<TagEntity>().ToArray();
 

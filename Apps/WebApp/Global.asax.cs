@@ -25,13 +25,14 @@ namespace WebApp
             var container = new WindsorContainerGeneration().SetupWithWebRequest();
             container.RegisterControllers(Assembly.GetExecutingAssembly());
 
+            AutoMapperWebConfiguration.Configure();
+
             //setup the website to get its user from aspnet.
             container.Register(Component.For<IGetCurrentUserName>().LifeStyle.PerWebRequest.ImplementedBy(typeof(GetCurrentUserNameUsingAspnet)));
 
             GlobalConfiguration.Configuration.DependencyResolver = new WindsorDependencyResolver(container);
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
         }
-
 
     }
 }
