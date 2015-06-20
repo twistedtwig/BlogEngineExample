@@ -7,6 +7,7 @@ using BlogEngine.Repository;
 using BlogEngine.Repository.Implementations;
 using BlogEngine.Repository.Models;
 using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Releasers;
 using Castle.Windsor;
 using UserManagementRepository.Implementations;
 using UserManagementRepository.Interfaces;

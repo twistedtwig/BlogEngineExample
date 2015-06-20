@@ -13,6 +13,13 @@ namespace BlogEngine.Repository.Implementations
     {
         private readonly BlogEngineContext _context = new BlogEngineContext();
 
+        public BlogRepository()
+        {
+            _context.Configuration.AutoDetectChangesEnabled = false;
+            _context.Configuration.LazyLoadingEnabled = false;
+            _context.Configuration.ProxyCreationEnabled = false;
+        }
+
         /// <summary>
         /// This is a bit messy and not ideal.  Will be cleaned up by implementing auto mapper and project To.
         /// It currently ensures all entities are returned with all their child properties.

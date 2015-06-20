@@ -2,7 +2,7 @@
 using BlogEngine.Domain.Models;
 using BlogEngine.Repository.Models;
 
-namespace WebApp
+namespace BlogEngine.Domain
 {
     public static class AutoMapperWebConfiguration
     {
@@ -12,9 +12,7 @@ namespace WebApp
             {
                 cfg.AddProfile(new UserProfile());
                 cfg.AddProfile(new BlogProfile());
-            });
-
-            Mapper.AssertConfigurationIsValid();
+            });            
         }
     }
 
@@ -32,6 +30,7 @@ namespace WebApp
         {
             Mapper.CreateMap<BlogEntry, BlogEntryEntity>().ReverseMap();
             Mapper.CreateMap<TagEntity, Tag>().ReverseMap();
+            Mapper.CreateMap<TagCountEntity, TagCount>().ReverseMap();
         }
     }
 
